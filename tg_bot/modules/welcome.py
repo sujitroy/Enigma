@@ -90,9 +90,13 @@ def new_member(bot: Bot, update: Update):
                 update.effective_message.reply_text("Master is in the houseeee, let's get this party started!")
                 continue
 
-            # Don't welcome yourself
+            # Check if group not Colt
             elif new_mem.id == bot.id:
-                continue
+                if chat.id == '-1001433407712' or '-1001446677438':
+                    update.effective_message.reply_text("Hello Colt community!")
+                else:
+                    update.effective_message.reply_text("It's not Colt group. I'll leave.")
+                    bot.leaveChat(chat.id)
 
             else:
                 # If welcome message is media, send with appropriate function
