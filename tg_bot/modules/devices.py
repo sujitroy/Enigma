@@ -10,7 +10,6 @@ from telegram.ext import CommandHandler, RegexHandler
 
 
 baseURL = "https://raw.githubusercontent.com/ColtOS-Devices/official_devices"
-website = 'https://sourceforge.net/projects/coltos/files/'
 
 __help__ = "- /devices - get all supported devices\n- #codename - get latest build"
 
@@ -84,21 +83,19 @@ def device_handler(bot, update):
 
     if build is None:
         return
-
-    link = website + device['codename'] + "/" + build['filename'] + "/download"
     
     # setup the message and send
     if device['maintainer_name'] is not None and build['filename'] is not None:
         # dirty place XD
         res = ("<b>Latest ColtOS for {} ({})</b>\n\n".format(device['name'],device['codename'])+
-        "<b>Build:</b> <a href='{1}'>{0}</a>\n".format(build['filename'], link)+
+        "<b>Build:</b> <a href='{}'>{}</a>\n".format(build['url'], build['filename'])+
         "<b>Size:</b> {}\n".format(humanSize(int(build['size'])))+
         "<b>Date:</b> {}\n".format(humanDate(int(build['datetime'])))+
-        "<b>Maintainer:</b> <a href='{1}'>{0}</a>\n\n".format(device['maintainer_name'], device['maintainer_url']))
+        "<b>Maintainer:</b> <a href='{}'>{}</a>\n\n".format(device['maintainer_url'], device['maintainer_name']))
 
         kb = InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton(text="Download", url=link)]
+                [InlineKeyboardButton(text="Download", url=build['url'])]
             ]
         )
 
